@@ -11,7 +11,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 			// if ( isset( $_POST['woocommerce-register-nonce'] ) && wp_verify_nonce( $_POST['woocommerce-register-nonce'], 'woocommerce-register-nonce' ) ) {
 			$user_id = $user->ID;
 			$org_token = get_option("funneltap_org_token");
-			$cookie_id = $_COOKIE['FUNNELTAP_LEARNER_ID'] ?? "";
+			$cookie_id = $_COOKIE['BASE_LEARNER_ID'] ?? "";
 
 			if (!empty($cookie_id)) :
 
@@ -20,7 +20,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 				$email = $current_user->user_email;
 				$full_name = $current_user->first_name . " " . $current_user->last_name;
 
-				$endpoint = 'https://stageapp.funneltap.ai/rest/v1/learn/identify?org_token=' . $org_token;
+				$endpoint = constant('FUNNELTAP_VERSION') . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 				$body = [
 					'userId'  => $cookie_id,
@@ -50,12 +50,12 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 					'data_format' => 'body',
 				];
 
-				$response = wp_remote_post(esc_url_raw($endpoint), $options);
+				$response = wp_remote_get(esc_url_raw($endpoint), $options);
 
 				if (is_wp_error($response)) :
 					error_log(print_r($response->get_error_message(), true));
 				else :
-				//error_log( print_r( wp_remote_retrieve_body( $response ), true ) );
+					error_log(json_encode($response));
 				endif;
 			else :
 				error_log(print_r("Cookie not set.", true));
@@ -70,7 +70,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 			// if ( isset( $_POST['woocommerce-register-nonce'] ) && wp_verify_nonce( $_POST['woocommerce-register-nonce'], 'woocommerce-register-nonce' ) ) {
 
 			$org_token = get_option("funneltap_org_token");
-			$cookie_id = $_COOKIE['FUNNELTAP_LEARNER_ID'] ?? "";
+			$cookie_id = $_COOKIE['BASE_LEARNER_ID'] ?? "";
 
 			if (!empty($cookie_id)) :
 
@@ -79,7 +79,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 				$email = $current_user->user_email;
 				$full_name = $current_user->first_name . " " . $current_user->last_name;
 
-				$endpoint = 'https://stageapp.funneltap.ai/rest/v1/learn/identify?org_token=' . $org_token;
+				$endpoint = constant('FUNNELTAP_VERSION') . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 				$body = [
 					'userId'  => $cookie_id,
@@ -109,12 +109,12 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 					'data_format' => 'body',
 				];
 
-				$response = wp_remote_post(esc_url_raw($endpoint), $options);
+				$response = wp_remote_get(esc_url_raw($endpoint), $options);
 
 				if (is_wp_error($response)) :
 					error_log(print_r($response->get_error_message(), true));
 				else :
-				//error_log( print_r( wp_remote_retrieve_body( $response ), true ) );
+					error_log(json_encode($response));
 				endif;
 			else :
 				error_log(print_r("Cookie not set.", true));
@@ -131,7 +131,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 
 			if ($order->get_status() === 'processing' || $order->get_status() === 'on-hold') :
 
-				$cookie_id = $_COOKIE['FUNNELTAP_LEARNER_ID'] ?? "";
+				$cookie_id = $_COOKIE['BASE_LEARNER_ID'] ?? "";
 
 				if (!empty($cookie_id)) :
 
@@ -144,7 +144,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 					$last_name = $order->get_billing_last_name();
 					$full_name = $first_name . ' ' . $last_name;
 
-					$endpoint = 'https://stageapp.funneltap.ai/rest/v1/learn/identify?org_token=' . $org_token;
+					$endpoint = constant('FUNNELTAP_VERSION') . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 					$body = [
 						'userId'  => $cookie_id,
@@ -174,12 +174,12 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 						'data_format' => 'body',
 					];
 
-					$response = wp_remote_post(esc_url_raw($endpoint), $options);
+					$response = wp_remote_get(esc_url_raw($endpoint), $options);
 
 					if (is_wp_error($response)) :
 						error_log(print_r($response->get_error_message(), true));
 					else :
-					//error_log( print_r( wp_remote_retrieve_body( $response ), true ) );
+						error_log(json_encode($response));
 					endif;
 				else :
 					error_log(print_r("Cookie not set.", true));

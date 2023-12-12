@@ -43,7 +43,7 @@ echo <<<EOL
 	var x,y;f['FunneltapObject']=p;f[p]=f[p]||function(){
 	(f[p].q=f[p].q||[]).push(arguments)},f[p].l=1*new Date();f[p].h=a;x=n.createElement(t),
 	y=n.getElementsByTagName(t)[0];x.async=1;x.src=a;y.parentNode.insertBefore(x, y)})
-	(window,document,'script','//stageapp.funneltap.ai/funneltap.wl.compressed.js','funneltap');
+	(window,document,'script',"$funneltap_host/funneltap.wl.compressed.js",'funneltap');
 	funneltap ('configure', '$orgid');
 </script>
 EOL;
@@ -51,7 +51,7 @@ echo "\n    <!-- End Funneltap Integration -->\n\n";
 
 include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 include_once(ABSPATH . 'wp-content/plugins/funneltap/common.php');
-if (is_plugin_active('woocommerce/woocommerce.php') && (isset($_COOKIE['FUNNELTAP_LEARNER_ID']))) {
+if (is_plugin_active('woocommerce/woocommerce.php') && (isset($_COOKIE['BASE_LEARNER_ID']))) {
 
 	$postid = get_the_ID();
 	$price1 = get_post_meta($postid, '_regular_price', true);
@@ -59,7 +59,7 @@ if (is_plugin_active('woocommerce/woocommerce.php') && (isset($_COOKIE['FUNNELTA
 	$currenturl = get_permalink();
 	$amt = WC()->cart->total;
 	$cucy = get_woocommerce_currency();
-	$cookieID = $_COOKIE['FUNNELTAP_LEARNER_ID'];
+	$cookieID = $_COOKIE['BASE_LEARNER_ID'];
 
 	$gcm_path = "/gcm_manifest.json";
 	$subpath = "";

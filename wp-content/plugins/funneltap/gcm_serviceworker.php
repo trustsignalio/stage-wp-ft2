@@ -18,9 +18,10 @@ $pwa_files_to_cache = get_option("funneltap_pwaFilesPath");
 $funneltap_host = funneltap_getFunneltapHost();
 
 $filesToCache = json_encode(explode(",", $pwa_files_to_cache));
+$funneltaphost = funneltap_getFunneltapHost();
 echo <<<EOL
 d = new Date();
 var cache_key = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + "-" + d.getHours ()
-var swUrl = 'https://stageapp.funneltap.ai/funneltap_sw.js';
+var swUrl = "$funneltaphost/funneltap_sw.js;
 importScripts(swUrl + "?orgtoken=$orgid&cache_key="+cache_key);
 EOL;

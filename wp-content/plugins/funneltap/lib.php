@@ -15,10 +15,10 @@ function funneltap_getFunneltapHost()
 	/* Get current Funneltap Host */
 	/* Function to check weather we are running in a Development environment,
     file /tmp/funneltapmode only exists in Dev environment */
-	if (file_exists("/tmp/funneltapmode")) {
-		return trim(file_get_contents("/tmp/funneltapmode"));
-	} else {
+	if (constant('WPFTHOSTDEV') == true) {
 		return "https://stageapp.funneltap.ai";
+	} else {
+		return "https://app.funneltap.ai";
 	}
 }
 

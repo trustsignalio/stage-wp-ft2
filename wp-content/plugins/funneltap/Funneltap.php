@@ -44,10 +44,10 @@ add_action('updated_post_meta', 'funneltap_product_published', 10, 3);
 add_action('save_post', 'funneltap_after_update');
 add_action('woocommerce_thankyou', 'funneltap_payment_checkout'); // On proceed to checkout button
 // add_action( 'woocommerce_after_shop_loop_item', 'funneltap_after_add_to_cart' );
-//add_action( 'woocommerce_after_single_product', 'funneltap_product_view');
+// add_action('woocommerce_after_single_product', 'funneltap_product_view');
 //add_action( "woocommerce_order_status_pending", "payment_checkout");// On Place order button
 //add_action('woocommerce_add_to_cart', 'funneltap_after_add_to_cart');
-
+define('FUNNELTAPHOST', funneltap_getFunneltapHost());
 function funneltap_gcm_manifest()
 {
 	$fname = "gcm_manifest.json";
@@ -223,19 +223,31 @@ require_once('track_registerAndCheckout.php');
 add_action('wp_footer', 'funneltap_add_to_cart_script');
 function funneltap_add_to_cart_script()
 {
-	// if ( is_shop() || is_product_category() || is_product_tag() ):
-?>
-	<script type="text/javascript">
-		(function($) {
+	if ((isset($_POST['add-to-cart']) && isset($_POST['quantity'])) || $_GET['add-to-cart']) {
+		// Get added to cart product ID (or variation ID) and quantity (if needed)
+		$id_to_check   = isset($_POST['variation_id']) ? esc_attr($_POST['variation_id']) : esc_attr($_POST['add-to-cart']);
+		if (!$id_to_check) {
+			$id_to_check = $_GET['add-to-cart'];
+		}
+		$found_in_cart = false; // Initializing
 
-			$(document.body).on('added_to_cart', function(event, fragments, cart_hash, button) {
-				const productID = parseInt($(button[0]).data('product_id')).toString();
-				funneltap("track", "addtocart", productID);
-			});
-
-		})(jQuery);
-	</script>
-	<?php
+		// Check cart items to be sure that the product has been added to cart (and get product data)
+		foreach (WC()->cart->get_cart() as $item) {
+			$product = $item['data']; // The WC_Product Object
+			if ($product->get_id() == $id_to_check) {
+				$found_in_cart = true;
+				break; // Stop the loop
+			}
+		}
+		if ($found_in_cart) { ?>
+			<script>
+				jQuery(function($) {
+					funneltap("track", "addtocart", <?php echo esc_attr($_POST['add-to-cart']); ?>);
+				});
+			</script>
+		<?php
+		}
+	}
 	global $wp;
 	$url = add_query_arg($wp->query_vars, home_url($wp->request));
 	if (is_search() && (strpos($url, 'post_type=product') !== false)) {
@@ -297,7 +309,7 @@ function funneltap_get_cart_total_amount()
 		}
 		if (isset($cookie_id) && !empty($cookie_id)) :
 
-			$endpoint = 'https://stageapp.funneltap.ai/rest/v1/learn/event?org_token=' . $org_token;
+			$endpoint = constant('FUNNELTAP_VERSION') . '/rest/v1/learn/event?org_token=' . $org_token;
 
 			$body = array(
 				"eventName" => 'cart_value',
@@ -349,7 +361,7 @@ function funneltap_single_product_add_to_cart($cart_item_key, $product_id, $quan
 		}
 		if (isset($cookie_id) && !empty($cookie_id)) :
 
-			$endpoint = 'https://stageapp.funneltap.ai/rest/v1/learn/event?org_token=' . $org_token;
+			$endpoint = constant('FUNNELTAP_VERSION') . '/rest/v1/learn/event?org_token=' . $org_token;
 
 			$body = array(
 				"eventName" => 'addtocart',

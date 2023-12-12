@@ -55,7 +55,7 @@ Once the plugin appears in your installation, you must activate it. Navigate to 
 
 Once you have activated the plugin and added the necessary actions, you need to configure the plugin. The plugins configuration page can be found under the "Settings > Funneltap".
 
-Once the plugin is activated campaigns and there respective reports can be managed via http://stageapp.funneltap.ai/
+Once the plugin is activated campaigns and there respective reports can be managed via http://app.funneltap.ai/
 
 
 The configuration page consists of two settings:
@@ -76,7 +76,7 @@ The plugin uses the WordPress Action API to add content to the website. However,
 * Indexing product using our API. It's recommended to use this API only if you are following SPA(Single page architecture).
 	* funneltap.index(productInfo);
 	
-For brief info do visit Funneltap Integrations Page i.e https://stageapp.funneltap.ai/integration/apicodeintegration	
+For brief info do visit Funneltap Integrations Page i.e https://app.funneltap.ai/integration/apicodeintegration	
 
 
 == Changelog ==

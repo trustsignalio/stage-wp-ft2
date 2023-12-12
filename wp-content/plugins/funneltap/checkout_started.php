@@ -7,7 +7,7 @@ $page = $wp_current_filter[0];
 include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 ?>
 <script>
-  jQuery(function ($) { // DOM is now ready and jQuery's $ alias sandboxed
+	jQuery(function($) { // DOM is now ready and jQuery's $ alias sandboxed
 		funneltap("track", "checkoutstarted");
-  });
+	});
 </script>
