@@ -55,6 +55,8 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 				if (is_wp_error($response)) :
 					error_log(print_r($response->get_error_message(), true));
 				else :
+					error_log($endpoint);
+					error_log(json_encode($options));
 					error_log(json_encode($response));
 				endif;
 			else :
@@ -114,6 +116,8 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 				if (is_wp_error($response)) :
 					error_log(print_r($response->get_error_message(), true));
 				else :
+					error_log($endpoint);
+					error_log(json_encode($options));
 					error_log(json_encode($response));
 				endif;
 			else :
@@ -179,6 +183,8 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 					if (is_wp_error($response)) :
 						error_log(print_r($response->get_error_message(), true));
 					else :
+						error_log($endpoint);
+						error_log(json_encode($options));
 						error_log(json_encode($response));
 					endif;
 				else :
