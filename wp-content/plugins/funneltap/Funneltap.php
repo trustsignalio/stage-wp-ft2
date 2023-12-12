@@ -92,8 +92,6 @@ function funneltap_gcm_manifest()
 			$gcm_data["name"] = "Funneltap Chrome Push Service";
 			$gcm_data["short_name"] = "Funneltap Push";
 		}
-
-
 		echo json_encode($gcm_data);
 		exit(0);
 	}
@@ -223,10 +221,8 @@ require_once('track_registerAndCheckout.php');
 add_action('wp_footer', 'funneltap_add_to_cart_script');
 function funneltap_add_to_cart_script()
 {
-	error_log($_POST['add-to-cart']);
-	error_log($_POST['quantity']);
-	error_log($_GET['add-to-cart']);
-	if ((isset($_POST['add-to-cart']) && isset($_POST['quantity'])) || $_GET['add-to-cart']) {
+
+	if ((isset($_POST['add-to-cart']) && isset($_POST['quantity'])) || isset($_GET['add-to-cart'])) {
 		// Get added to cart product ID (or variation ID) and quantity (if needed)
 		$id_to_check   = isset($_POST['variation_id']) ? esc_attr($_POST['variation_id']) : esc_attr($_POST['add-to-cart']);
 		if (!$id_to_check) {
