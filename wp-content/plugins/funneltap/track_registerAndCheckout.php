@@ -46,8 +46,13 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 					'timeout'     => 60,
 					'redirection' => 5,
 					'blocking'    => true,
-					'httpversion' => '1.0',
-					'sslverify'   => false,
+					'httpversion' => '1.1',
+					'sslverify'   => true,
+					'ssl'         => array(
+						'verify_peer'      => true,
+						'verify_peer_name' => true,
+						'crypto_method'    => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
+					),
 					'data_format' => 'body',
 				];
 
@@ -108,8 +113,13 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 					'timeout'     => 60,
 					'redirection' => 5,
 					'blocking'    => true,
-					'httpversion' => '1.0',
-					'sslverify'   => false,
+					'httpversion' => '1.1',
+					'sslverify'   => true,
+					'ssl'         => array(
+						'verify_peer'      => true,
+						'verify_peer_name' => true,
+						'crypto_method'    => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
+					),
 					'data_format' => 'body',
 				];
 
@@ -176,8 +186,13 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 						'timeout'     => 60,
 						'redirection' => 5,
 						'blocking'    => true,
-						'httpversion' => '1.0',
-						'sslverify'   => false,
+						'httpversion' => '1.1',
+						'sslverify'   => true,
+						'ssl'         => array(
+							'verify_peer'      => true,
+							'verify_peer_name' => true,
+							'crypto_method'    => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
+						),
 						'data_format' => 'body',
 					];
 
