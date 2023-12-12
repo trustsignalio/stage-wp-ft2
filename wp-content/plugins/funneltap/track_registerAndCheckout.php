@@ -20,7 +20,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 				$email = $current_user->user_email;
 				$full_name = $current_user->first_name . " " . $current_user->last_name;
 
-				$endpoint = constant('FUNNELTAP_VERSION') . '/rest/v1/learn/identify?org_token=' . $org_token;
+				$endpoint = constant('FUNNELTAPHOST') . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 				$body = [
 					'userId'  => $cookie_id,
@@ -81,7 +81,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 				$email = $current_user->user_email;
 				$full_name = $current_user->first_name . " " . $current_user->last_name;
 
-				$endpoint = constant('FUNNELTAP_VERSION') . '/rest/v1/learn/identify?org_token=' . $org_token;
+				$endpoint = constant('FUNNELTAPHOST') . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 				$body = [
 					'userId'  => $cookie_id,
@@ -148,7 +148,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 					$last_name = $order->get_billing_last_name();
 					$full_name = $first_name . ' ' . $last_name;
 
-					$endpoint = constant('FUNNELTAP_VERSION') . '/rest/v1/learn/identify?org_token=' . $org_token;
+					$endpoint = constant('FUNNELTAPHOST') . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 					$body = [
 						'userId'  => $cookie_id,
