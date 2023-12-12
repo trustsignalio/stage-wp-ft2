@@ -263,6 +263,29 @@ function funneltap_add_to_cart_script()
 	// endif;
 }
 
+add_action('woocommerce_add_to_cart', 'custom_add_to_cart');
+function custom_add_to_cart()
+{
+	global $woocommerce;
+	$product_id = $_POST['assessories'];
+	$found = false;
+
+	//check if product already in cart
+	if (sizeof(WC()->cart->get_cart()) > 0) {
+		foreach (WC()->cart->get_cart() as $cart_item_key => $values) {
+			$_product = $values['data'];
+			if ($_product->id == $product_id)
+				$found = true;
+		}
+		// if product not found, add it
+		if (!$found)
+			WC()->cart->add_to_cart($product_id);
+	} else {
+		// if no products in cart, add it
+		WC()->cart->add_to_cart($product_id);
+	}
+}
+
 function funneltap_plugin_admin_notice()
 {
 	//get the current screen
