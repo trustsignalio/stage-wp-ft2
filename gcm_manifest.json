@@ -1,0 +1,7 @@
+{
+  "name": "funneltap Chrome Push Service",
+  "short_name": "funneltap Push",
+  "display": "standalone",
+  "gcm_sender_id": "142479978430",
+  "gcm_user_visible_only": true
+}
