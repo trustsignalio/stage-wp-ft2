@@ -222,31 +222,38 @@ add_action('wp_footer', 'funneltap_add_to_cart_script');
 function funneltap_add_to_cart_script()
 {
 
-	if ((isset($_POST['add-to-cart']) && isset($_POST['quantity'])) || isset($_GET['add-to-cart'])) {
-		// Get added to cart product ID (or variation ID) and quantity (if needed)
-		$id_to_check   = isset($_POST['variation_id']) ? esc_attr($_POST['variation_id']) : esc_attr($_POST['add-to-cart']);
-		if (!$id_to_check) {
+	if (isset($_POST['add-to-cart']) || isset($_GET['add-to-cart'])) {
+		// Determine the product ID to check
+		$id_to_check = 0;
+		if (isset($_POST['variation_id'])) {
+			$id_to_check = esc_attr($_POST['variation_id']);
+		} elseif (isset($_POST['add-to-cart'])) {
+			$id_to_check = esc_attr($_POST['add-to-cart']);
+		} elseif (isset($_GET['add-to-cart'])) {
 			$id_to_check = esc_attr($_GET['add-to-cart']);
 		}
-		$found_in_cart = false; // Initializing
 
-		// Check cart items to be sure that the product has been added to cart (and get product data)
-		foreach (WC()->cart->get_cart() as $item) {
-			$product = $item['data']; // The WC_Product Object
-			if ($product->get_id() == $id_to_check) {
-				$found_in_cart = true;
-				break; // Stop the loop
+		if ($id_to_check && WC()->cart) {
+			// Check if the product is in the cart
+			$found_in_cart = array_exists(WC()->cart->get_cart(), function ($item) use ($id_to_check) {
+				return $item['data']->get_id() == $id_to_check;
+			});
+
+			// If found, enqueue JavaScript for tracking
+			if ($found_in_cart) {
+				add_action('wp_footer', function () use ($id_to_check) {
+?>
+					<script>
+						jQuery(function($) {
+							funneltap("track", "addtocart", <?php echo $id_to_check; ?>);
+						});
+					</script>
+			<?php
+				});
 			}
 		}
-		if ($found_in_cart) { ?>
-			<script>
-				jQuery(function($) {
-					funneltap("track", "addtocart", <?php echo $id_to_check; ?>);
-				});
-			</script>
-		<?php
-		}
 	}
+
 	global $wp;
 	$url = add_query_arg($wp->query_vars, home_url($wp->request));
 	if (is_search() && (strpos($url, 'post_type=product') !== false)) {
