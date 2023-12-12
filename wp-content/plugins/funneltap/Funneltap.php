@@ -227,7 +227,7 @@ function funneltap_add_to_cart_script()
 		// Get added to cart product ID (or variation ID) and quantity (if needed)
 		$id_to_check   = isset($_POST['variation_id']) ? esc_attr($_POST['variation_id']) : esc_attr($_POST['add-to-cart']);
 		if (!$id_to_check) {
-			$id_to_check = $_GET['add-to-cart'];
+			$id_to_check = esc_attr($_GET['add-to-cart']);
 		}
 		$found_in_cart = false; // Initializing
 
@@ -242,7 +242,7 @@ function funneltap_add_to_cart_script()
 		if ($found_in_cart) { ?>
 			<script>
 				jQuery(function($) {
-					funneltap("track", "addtocart", <?php echo esc_attr($_POST['add-to-cart']); ?>);
+					funneltap("track", "addtocart", <?php echo $id_to_check; ?>);
 				});
 			</script>
 		<?php
