@@ -8,6 +8,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 
 	add_action('wp_login', function ($user_login, WP_User $user) {
 		if (!is_admin()) :
+			$host = funneltap_getFunneltapHost();
 			// if ( isset( $_POST['woocommerce-register-nonce'] ) && wp_verify_nonce( $_POST['woocommerce-register-nonce'], 'woocommerce-register-nonce' ) ) {
 			$user_id = $user->ID;
 			$org_token = get_option("funneltap_org_token");
@@ -20,7 +21,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 				$email = $current_user->user_email;
 				$full_name = $current_user->first_name . " " . $current_user->last_name;
 
-				$endpoint = constant('FUNNELTAPHOST') . '/rest/v1/learn/identify?org_token=' . $org_token;
+				$endpoint = $host . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 				$body = [
 					'userId'  => $cookie_id,
@@ -69,6 +70,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 
 	add_action('user_register', function ($user_id) {
 		if (!is_admin()) :
+			$host = funneltap_getFunneltapHost();
 			// if ( isset( $_POST['woocommerce-register-nonce'] ) && wp_verify_nonce( $_POST['woocommerce-register-nonce'], 'woocommerce-register-nonce' ) ) {
 
 			$org_token = get_option("funneltap_org_token");
@@ -81,7 +83,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 				$email = $current_user->user_email;
 				$full_name = $current_user->first_name . " " . $current_user->last_name;
 
-				$endpoint = constant('FUNNELTAPHOST') . '/rest/v1/learn/identify?org_token=' . $org_token;
+				$endpoint = $host . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 				$body = [
 					'userId'  => $cookie_id,
@@ -130,6 +132,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 
 	add_action("woocommerce_order_status_changed", function ($order_id, $checkout = null) {
 		if (!is_admin()) :
+			$host = funneltap_getFunneltapHost();
 			global $woocommerce;
 			$order = wc_get_order($order_id);
 
@@ -148,7 +151,7 @@ if (is_plugin_active('woocommerce/woocommerce.php')) :
 					$last_name = $order->get_billing_last_name();
 					$full_name = $first_name . ' ' . $last_name;
 
-					$endpoint = constant('FUNNELTAPHOST') . '/rest/v1/learn/identify?org_token=' . $org_token;
+					$endpoint = $host . '/rest/v1/learn/identify?org_token=' . $org_token;
 
 					$body = [
 						'userId'  => $cookie_id,
