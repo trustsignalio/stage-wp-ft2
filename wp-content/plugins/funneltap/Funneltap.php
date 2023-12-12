@@ -235,9 +235,9 @@ function funneltap_add_to_cart_script()
 
 		if ($id_to_check && WC()->cart) {
 			// Check if the product is in the cart
-			$found_in_cart = array_exists(WC()->cart->get_cart(), function ($item) use ($id_to_check) {
+			$found_in_cart = !empty(array_filter(WC()->cart->get_cart(), function ($item) use ($id_to_check) {
 				return $item['data']->get_id() == $id_to_check;
-			});
+			}));
 
 			// If found, enqueue JavaScript for tracking
 			if ($found_in_cart) {
@@ -253,6 +253,7 @@ function funneltap_add_to_cart_script()
 			}
 		}
 	}
+
 
 	global $wp;
 	$url = add_query_arg($wp->query_vars, home_url($wp->request));
